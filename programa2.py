@@ -11,9 +11,9 @@ print("  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
 print("    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
 print("	~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
 # Solicitar el TAG del jugador
-nombre = input("Ingresa el nombre del personaje(MAYÚS): ")
+id = input("Ingresa el ID del personaje): ")
 
-url_base = f"https://api.brawlstars.com/v1/brawlers/%23{nombre}"
+url_base = f"https://api.brawlstars.com/v1/brawlers/{id}"
 KEY = 'API-KEY'
 headers = {'Authorization': KEY}
 response = requests.get(url_base, headers=headers)
