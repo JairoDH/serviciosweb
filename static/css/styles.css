@@ -34,8 +34,8 @@ h3 {
 }
 
 .sidebar {
-    background: rgb(61, 79, 93);
-    color: #fff;
+    background: rgb(46, 116, 169);
+    color: #eaee0d;
 }
 
 .brand-title,
@@ -47,7 +47,7 @@ h3 {
 }
 .brand-tagline {
     font-weight: 300;
-    color: rgb(176, 202, 219);
+    color: rgb(228, 154, 6);
 }
 
 .nav-list {
@@ -147,7 +147,7 @@ h3 {
     padding: 1em 0;
 }
 .footer a {
-    color: #ccc;
+    color: #fea100;
     font-size: 80%;
 }
 .footer .pure-menu a:hover,

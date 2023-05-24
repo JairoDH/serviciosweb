@@ -1,30 +1,12 @@
 {% extends "base.html" %}
-{% block title %}Juego{% endblock %}
+{% block title %}Lista de Brawlers{% endblock %}
 
 {% block content %}
-  <table>
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Nombre</th>
-        <th>Sistema</th>
-        <th>Distribuidor</th>
-        <th>Desarrollador</th>
-        <th>categoria</th>
-        <th>año</th>
-      </tr>
-    </thead>
-    <tbody> 
-        <tr>
-          <td>{{ juego.id }}</td>
-          <td>{{ juego.nombre }}</td>
-          <td>{{ juego.sistema }}</td>
-          <td>{{ juego.distribuidor }}</td>
-          <td>{{ juego.desarrollador }}</td>
-          <td>{{ juego.categoria }}</td>
-          <td>{{ juego.año }}</td>
-        </tr>
-    </tbody>
-  </table>
-  <a href="/juegos"><button><type="submit">Volver</button></a>
+<h1>Lista de Brawlers</h1>
+<ul>
+  {% for brawler in brawlers %}
+    <li>{{ brawler.name }}</li>
+  {% endfor %}
+</ul>
+<a href="/juegos"><button>Volver</button></a>
 {% endblock %}
