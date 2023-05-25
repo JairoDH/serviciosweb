@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 import requests, json
 
 url_base = "https://api.brawlstars.com/v1"
@@ -33,8 +33,26 @@ def filtrar_brawlers(brawlerId):
     else:
         return "Error al obtener los detalles del brawler"
 
+@app.route('/templates/formulario.html', methods=[ "GET", "POST"])
+def formulario():
+    if request.method == 'POST':
+        request.form['tag'] #Recibe la informacion del formulario y lo mete en 'tag'.
+        return render_template('formulario.html')
+    else:
+        return render_template('formulario.html')
+    
+@app.route('/templates/busqueda.html', methods=["GET"])
+def jugador(tag):
+    response = requests.get(url_base + f"/players/{tag}", headers=headers)
+    if response.status_code == 200:
+        player = response.json()
+        players = [player] 
+        return render_template("busqueda.html", players=players)
+    else:
+        return "Error al obtener los detalles del brawler"
 
-    
-    
+
+
+
 if __name__ == '__main__':
     app.run("0.0.0.0", 5000, debug=True)

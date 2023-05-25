@@ -2,22 +2,9 @@
 {% block title %}Lista de Juegos{% endblock %}
 
 {% block content %}
-  <table>
-    <thead>
-      <tr>
-        <th>Nombre</th>
-        <th>Desarrollador</th>
-        <th>Detalles</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for juego in resultado %}
-        <tr>
-          <td>{{ juego.nombre }}</td>
-          <td>{{ juego.desarrollador }}</td>
-          <td><a href="/juego/{{juego['id']}}">Detalles</a></td>
-        </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+<form action="/busqueda" method="POST">
+  <label for="nombre">Introduce el TAG del jugador: </label>
+  <input type="text" name="tag" value="{{tag}}"/><br/>
+  <button type="submit">Buscar</button>
+</form>
 {% endblock %}

@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Detalles del Brawler{% endblock %}
+
+{% block content %}
+  <table>
+    <thead>
+      <tr>
+        <th>Jugador</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for jugador in players %}
+          <tr>
+            <td>{{ jugador.name }}</td>
+            <td>{{ jugador.trophies }}</td>
+            <td>{{ jugador.highestTrophies }}</td>
+            <td>{{ jugador.brawlers }}</td>
+      {% endfor %}
+    </tbody>
+  </table>
+  <br>
+  <br>
+  <br>
+  <br>
+  <a href="/templates/lista.html"><button>Volver</button></a>
+{% endblock %}
