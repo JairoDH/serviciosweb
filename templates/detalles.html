@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}Detalles del Brawler{% endblock %}
+
+{% block content %}
+  <table>
+    <thead>
+      <tr>
+        <th>StartPowers</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for brawler in brawlers %}
+        {% for starPower in brawler.starPowers %}
+          <tr>
+            <td>{{ starPower.name }}</td>
+        {% endfor %}
+ 
+      {% endfor %}
+    </tbody>
+  </table>
+  <br>
+  <table>
+    <thead>
+      <tr>
+        <th>Gadgets</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for brawler in brawlers %}
+        {% for gadget in brawler.gadgets %}        
+      <td>{{ gadget.name }}</td>
+    </tr>
+        {% endfor %}
+      {% endfor %}
+    </tbody>
+  </table>
+  <br>
+  <br>
+  <br>
+  <a href="/"><button>Volver</button></a>
+{% endblock %}

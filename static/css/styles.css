@@ -22,7 +22,10 @@ h3 {
     max-width: 100%;
     height: auto;
 }
-
+table {border: 1px solid;}
+table tr td {
+    border: 1px solid;
+  }
 #layout {
     padding: 0;
 }

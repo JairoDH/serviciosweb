@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Lista de Brawlers{% endblock %}
+
+{% block content %}
+<body>
+  <h1>Lista de Brawlers</h1>
+  <ul>
+      {% for brawler in brawlers %}
+          <li><a href="/detalles/{{brawler['id']}}" title="Ver detalles">{{ brawler.name }}</a></li>
+      {% endfor %}
+  </ul>
+</body>
+<a href="/"><button>Volver</button></a>
+{% endblock %}
+
