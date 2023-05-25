@@ -73,9 +73,9 @@ def rankingtop100():
     if response.status_code and response1.status_code == 200:
         json = response.json()
         json1 = response1.json()
-        rank = json["items"][:100] #Limitado a 100 resultados
-        rank1 = json1["items"][:100]
-        return render_template('rankingtop100.html', rank=rank, rank1=rank1)
+        ranktop100 = json["items"][:100] #Limitado a 100 resultados
+        ranktop1001 = json1["items"][:100]
+        return render_template('rankingtop100.html', ranktop100=ranktop100, ranktop1001=ranktop1001)
     else:
         return "Error al obtener el ranking"        
 
