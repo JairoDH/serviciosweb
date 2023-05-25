@@ -43,29 +43,41 @@ def formulario():
     
 @app.route('/templates/ranking.html', methods=[ "GET" ])
 def ranking():
-    response = requests.get(url_base + "/global/players", headers=headers)
-    response1 = requests.get(url_base + "/es/players", headers=headers)
+    response = requests.get(url_base + "/rankings/global/players", headers=headers)
+    response1 = requests.get(url_base + "/rankings/es/players", headers=headers)
     if response.status_code and response1.status_code == 200:
-        top = response.json()
-        top1 = response1.json()
-        return render_template('ranking.html', top=top, top1=top1)
+        json = response.json()
+        json1 = response1.json()
+        rank = json["items"][:15] #Limitado a 15 resultados
+        rank1 = json1["items"][:15]
+        return render_template('ranking.html', rank=rank, rank1=rank1)
     else:
         return "Error al obtener el ranking"
         
     
+@app.route('/templates/busqueda.html', methods=["GET", "POST"])
+def jugador(): 
+    tag = request.form['tag']
+    response = requests.get(url_base + f"/players/%23{tag}", headers=headers)
+    if response.status_code == 200:
+        player = response.json()
+        players = [player] 
+        return render_template("busqueda.html", players=players)
+    else:
+        return "Error al obtener los detalles del jugador :" + tag
 
-    
-# @app.route('/templates/busqueda.html', methods=["GET", "POST"])
-# def jugador(): 
-#     tag = request.form['tag']
-#     response = requests.get(url_base + f"/players/{tag}", headers=headers)
-#     if response.status_code == 200:
-#         player = response.json()
-#         players = [player] 
-#         return render_template("busqueda.html", players=players)
-#     else:
-#         return "Error al obtener los detalles del jugador :" + tag
-        
+@app.route('/templates/rankingtop100.html', methods=[ "GET" ])
+def rankingtop100():
+    response = requests.get(url_base + "/rankings/global/players", headers=headers)
+    response1 = requests.get(url_base + "/rankings/es/players", headers=headers)
+    if response.status_code and response1.status_code == 200:
+        json = response.json()
+        json1 = response1.json()
+        rank = json["items"][:100] #Limitado a 100 resultados
+        rank1 = json1["items"][:100]
+        return render_template('rankingtop100.html', rank=rank, rank1=rank1)
+    else:
+        return "Error al obtener el ranking"        
 
 
 if __name__ == '__main__':

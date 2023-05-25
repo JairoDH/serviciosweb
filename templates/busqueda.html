@@ -5,16 +5,27 @@
   <table>
     <thead>
       <tr>
-        <th>Jugador</th>
+        <th>Datos del Jugador</th>
       </tr>
     </thead>
     <tbody>
       {% for jugador in players %}
           <tr>
+            <td>JUGADOR</td>
             <td>{{ jugador.name }}</td>
+          </tr>
+          <tr>
+            <td>COPAS</td>
             <td>{{ jugador.trophies }}</td>
+          </tr>
+          <tr>
+            <td>MAXIMO DE COPAS</td>
             <td>{{ jugador.highestTrophies }}</td>
-            <td>{{ jugador.brawlers }}</td>
+          </tr>
+          <tr>
+            <td>CLUB</td>
+            <td>{{ jugador.club.name }}</td>
+          </tr>
       {% endfor %}
     </tbody>
   </table>

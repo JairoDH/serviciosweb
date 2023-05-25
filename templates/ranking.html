@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}Lista de Brawlers{% endblock %}
+
+{% block content %}
+<body>
+    <h1>Lista TOP RANKING mejores jugadores GLOBAL / ESPAÑA</h1>
+    <table>
+        <tr>
+            <th>GLOBAL</th>
+            <th>ESPAÑA</th>
+        </tr>
+        <tr>
+            <td>
+                <ol>
+                    {% for top in rank %}
+                        <li>{{ top.name }}</li>
+                    {% endfor %}
+                </ol>
+            </td>
+            <td>
+                <ol>
+                    {% for top1 in rank1 %}
+                        <li>{{ top1.name }}</li>
+                    {% endfor %}
+                </ol>
+            </td>
+        </tr>
+        <tr><a href="/templates/rankingtop100.html"> ver top 100</a></tr>
+    </table>
+</body>
+
+{% endblock %}
