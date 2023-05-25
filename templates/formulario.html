@@ -2,7 +2,7 @@
 {% block title %}Lista de Juegos{% endblock %}
 
 {% block content %}
-<form action="/busqueda" method="POST">
+<form action="/templates/busqueda.html" method="POST">
   <label for="nombre">Introduce el TAG del jugador: </label>
   <input type="text" name="tag" value="{{tag}}"/><br/>
   <button type="submit">Buscar</button>

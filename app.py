@@ -41,17 +41,31 @@ def formulario():
     else:
         return render_template('formulario.html')
     
-@app.route('/templates/busqueda.html', methods=["GET"])
-def jugador(tag):
-    response = requests.get(url_base + f"/players/{tag}", headers=headers)
-    if response.status_code == 200:
-        player = response.json()
-        players = [player] 
-        return render_template("busqueda.html", players=players)
+@app.route('/templates/ranking.html', methods=[ "GET" ])
+def ranking():
+    response = requests.get(url_base + "/global/players", headers=headers)
+    response1 = requests.get(url_base + "/es/players", headers=headers)
+    if response.status_code and response1.status_code == 200:
+        top = response.json()
+        top1 = response1.json()
+        return render_template('ranking.html', top=top, top1=top1)
     else:
-        return "Error al obtener los detalles del brawler"
+        return "Error al obtener el ranking"
+        
+    
 
-
+    
+# @app.route('/templates/busqueda.html', methods=["GET", "POST"])
+# def jugador(): 
+#     tag = request.form['tag']
+#     response = requests.get(url_base + f"/players/{tag}", headers=headers)
+#     if response.status_code == 200:
+#         player = response.json()
+#         players = [player] 
+#         return render_template("busqueda.html", players=players)
+#     else:
+#         return "Error al obtener los detalles del jugador :" + tag
+        
 
 
 if __name__ == '__main__':
