@@ -1,17 +1,21 @@
 from flask import Flask, render_template, request
-import requests, json
+import requests
 
 url_base = "https://api.brawlstars.com/v1"
-KEY = 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiIsImtpZCI6IjI4YTMxOGY3LTAwMDAtYTFlYi03ZmExLTJjNzQzM2M2Y2NhNSJ9.eyJpc3MiOiJzdXBlcmNlbGwiLCJhdWQiOiJzdXBlcmNlbGw6Z2FtZWFwaSIsImp0aSI6IjI5OGY4NjdmLTg3ZWMtNDA0ZS05ODljLTZkOTQ5OWE1YzUxMCIsImlhdCI6MTY4NTAyOTM3OSwic3ViIjoiZGV2ZWxvcGVyL2Y2MWE1ZDlhLTA1YjEtZGE4My01Nzc2LTkyM2JmYTVjZjU5YyIsInNjb3BlcyI6WyJicmF3bHN0YXJzIl0sImxpbWl0cyI6W3sidGllciI6ImRldmVsb3Blci9zaWx2ZXIiLCJ0eXBlIjoidGhyb3R0bGluZyJ9LHsiY2lkcnMiOlsiOTAuMTYwLjE0Ni4zNCIsIjkwLjE2MS44Mi4xMjkiXSwidHlwZSI6ImNsaWVudCJ9XX0.BIZrgTG15xHi0FoTJ0r-oS1xvjvCfTLnJk70e66OHvx3Rftzu6cBhZGzoRWagM-SWH3-aamAz1zka4ZQxl6T1A'
+KEY = 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiIsImtpZCI6IjI4YTMxOGY3LTAwMDAtYTFlYi03ZmExLTJjNzQzM2M2Y2NhNSJ9.eyJpc3MiOiJzdXBlcmNlbGwiLCJhdWQiOiJzdXBlcmNlbGw6Z2FtZWFwaSIsImp0aSI6ImRhZjIyOGU3LTM1YjYtNDdiNy05ZmJkLWU5MDBmYjc4YjM2MyIsImlhdCI6MTY4NTIwNDY0Nywic3ViIjoiZGV2ZWxvcGVyL2Y2MWE1ZDlhLTA1YjEtZGE4My01Nzc2LTkyM2JmYTVjZjU5YyIsInNjb3BlcyI6WyJicmF3bHN0YXJzIl0sImxpbWl0cyI6W3sidGllciI6ImRldmVsb3Blci9zaWx2ZXIiLCJ0eXBlIjoidGhyb3R0bGluZyJ9LHsiY2lkcnMiOlsiOTUuNjEuMTY4LjIzMyJdLCJ0eXBlIjoiY2xpZW50In1dfQ.bxn2kG-75ZM1gi2wP-edIgAIw91v6SNem-nquqjRUtYDGRrkjIhEq0sB4VsbwlgV5UqGk9prpdnQm79nuWMzXg'
 headers = {'Authorization': KEY}
 
 
 app = Flask(__name__)
 
+# Función para la ruta principal ("/").
+# Retorna el template "inicio.html" al renderizar la página.
 @app.route('/')
 def inicio():
     return render_template("inicio.html")
 
+# Función para la ruta "/templates/lista.html".
+# Obtiene la lista de brawlers de la API y la muestra en el template "lista.html".
 @app.route('/templates/lista.html', methods=["GET"])
 def listar_brawlers():
     response = requests.get(url_base + "/brawlers", headers=headers)
@@ -19,9 +23,12 @@ def listar_brawlers():
     if response.status_code == 200:
         json = response.json()
         brawlers = json["items"]
-    return render_template('lista.html', brawlers=brawlers)
-    
+        return render_template('lista.html', brawlers=brawlers)
+    else:
+        return "Error al obtener los detalles del brawler"
 
+# Función para la ruta "/detalles/<brawlerId>".
+# Obtiene los detalles de un brawler específico mediante su ID y los muestra en el template "detalles.html".  
 @app.route('/detalles/<brawlerId>', methods=["GET"])
 def filtrar_brawlers(brawlerId):
     response = requests.get(url_base + f"/brawlers/{brawlerId}", headers=headers)
@@ -32,15 +39,19 @@ def filtrar_brawlers(brawlerId):
         return render_template("detalles.html", brawlers=brawlers)
     else:
         return "Error al obtener los detalles del brawler"
-
-@app.route('/templates/formulario.html', methods=[ "GET", "POST"])
+ # Función para que en el html /formulario se recoja la cadena en una variable para utilizar dicha variable como parámetro
+ # en la URL en la búsqueda a la API y así permitir solicitud tipo GET.
+ 
+@app.route('/templates/formulario.html', methods=["GET", "POST"])
 def formulario():
     if request.method == 'POST':
-        request.form['tag'] #Recibe la informacion del formulario y lo mete en 'tag'.
-        return render_template('formulario.html')
+        return render_template('busqueda.html')
     else:
         return render_template('formulario.html')
-    
+
+# Función para la ruta "/templates/ranking.html".
+# Obtiene los rankings global y de España de jugadores desde la API
+# y los muestra en el template "ranking.html".   
 @app.route('/templates/ranking.html', methods=[ "GET" ])
 def ranking():
     response = requests.get(url_base + "/rankings/global/players", headers=headers)
@@ -54,10 +65,11 @@ def ranking():
     else:
         return "Error al obtener el ranking"
         
-    
+# Función en /busqueda.html para que recoja en una variable el contenido del formulario por metodo POST
+# y lo utilice para realizar la búsqueda a la API por el metodo GET.    
 @app.route('/templates/busqueda.html', methods=["GET", "POST"])
 def jugador(): 
-    tag = request.form['tag']
+    tag = request.form['tag'] #meter en una variable el contenido obtenido del formulario.
     response = requests.get(url_base + f"/players/%23{tag}", headers=headers)
     if response.status_code == 200:
         player = response.json()
@@ -66,11 +78,13 @@ def jugador():
     else:
         return "Error al obtener los detalles del jugador :" + tag
 
+# Función que recoje en dos response diferentes el ranking GLOBAL y de ESPAÑA, si en ambas peticiones son válidas,
+# se recoje en dos variables y los muestra por rakingtpo100.html
 @app.route('/templates/rankingtop100.html', methods=[ "GET" ])
 def rankingtop100():
     response = requests.get(url_base + "/rankings/global/players", headers=headers)
     response1 = requests.get(url_base + "/rankings/es/players", headers=headers)
-    if response.status_code and response1.status_code == 200:
+    if response.status_code == 200 and response1.status_code == 200:
         json = response.json()
         json1 = response1.json()
         ranktop100 = json["items"][:100] #Limitado a 100 resultados
